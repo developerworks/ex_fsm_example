@@ -14,7 +14,7 @@ defmodule ExFsmExample.Worker do
   end
 
   def init(_args) do
-    state = %{socket: :undefined}
+    state = %{socket: :undefined, name: :undefined}
     {:ok, :on, state}
   end
 
@@ -63,7 +63,13 @@ defmodule ExFsmExample.Worker do
   """
   def code_change(old_vsn, state_name, state_data, extra) do
     Logger.debug "old vsn = #{inspect old_vsn}, state_name = #{inspect state_name}, state_data = #{inspect state_data}, extra = #{inspect extra}"
-    {:ok, state_name, state_data}
+    new_state_data = case old_vsn do
+      {:down, vsn_no} ->
+         Map.delete(state_data, :name)
+      _ ->
+        Map.put_new(state_data, :name, :undefined)
+    end
+    Logger.debug "old vsn = #{inspect old_vsn}, state_name = #{inspect state_name}, new_state_data = #{inspect new_state_data}, extra = #{inspect extra}"
+    {:ok, state_name, new_state_data}
   end
-
 end
