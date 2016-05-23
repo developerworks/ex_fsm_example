@@ -14,7 +14,7 @@ defmodule ExFsmExample.Mixfile do
   #
   # Type "mix help compile.app" for more information
   def application do
-    [applications: [:logger],
+    [applications: [:logger, :exsync],
      mod: {ExFsmExample, []}]
   end
 
@@ -29,7 +29,8 @@ defmodule ExFsmExample.Mixfile do
   # Type "mix help deps" for more examples and options
   defp deps do
     [
-      {:exrm, "~> 1.0"}
+      {:exrm, "~> 1.0"},
+      {:exsync, "~> 0.1.2"}
     ]
   end
 end
